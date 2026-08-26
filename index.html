@@ -28,19 +28,17 @@
         const addBtn = document.getElementById('addBtn');
         const taskList = document.getElementById('taskList');
 
-        let tasks = [];
+       let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
         renderTasks();
 
         addBtn.addEventListener('click', addTask);
 
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
         function addTask() {
-
-
-
-
-
-            
             const taskInput = document.getElementById('taskInput');
             const taskText = taskInput.value.trim();
             
@@ -58,11 +56,13 @@
             tasks.push(task);
             renderTasks();
             taskInput.value = '';
+            saveTasks();
         }
 
         function deleteTask(id) {
             tasks = tasks.filter(task => task.id !== id);
             renderTasks();
+             saveTasks();
         }
 
         function completeTask(id) {
@@ -70,6 +70,7 @@
             if (task) {
                 task.completed = !task.completed;
                 renderTasks();
+                 saveTasks();
             }
         }
 
@@ -80,6 +81,7 @@
                 if (newText !== null && newText.trim() !== '') {
                     task.text = newText.trim();
                     renderTasks();
+                     saveTasks();
                 }
             }
         }
@@ -109,6 +111,7 @@
             li.appendChild(span);
             li.appendChild(buttonsDiv);
             taskList.appendChild(li);
+             saveTasks();
         });
     }
 }
