@@ -13,7 +13,7 @@
         <div class="input-group">
             <input 
                 type="text" 
-                id="taskInput" 
+                id="taskInput" .
                 placeholder="Enter a task"
             >
             <button id="addBtn">Add Task</button>
@@ -35,6 +35,12 @@
         addBtn.addEventListener('click', addTask);
 
         function addTask() {
+
+
+
+
+
+            
             const taskInput = document.getElementById('taskInput');
             const taskText = taskInput.value.trim();
             
@@ -78,30 +84,35 @@
             }
         }
 
-        function renderTasks() {
-            taskList.innerHTML = '';
+      function renderTasks() {
+    taskList.textContent = '';
 
-            if (tasks.length === 0) {
-                taskList.innerHTML = '<li class="empty-message">No tasks yet. Add one above!</li>';
-            } else {
-                tasks.forEach(task => {
-                    const li = document.createElement('li');
-                    li.className = `task-item ${task.completed ? 'completed' : ''}`;
-                    
-                    li.innerHTML = `
-                        <span class ="task-text" >${task.text}</span>
-                        <div class="task-buttons">
-                            <button class="edit-btn" onclick="editTask(${task.id})">Edit</button>
-                            <button class="complete-btn" onclick="completeTask(${task.id})">${task.completed ? 'Complete' : 'Completed'}</button>
-                            <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
-                        </div>
-                    `;
-                    
-                    taskList.appendChild(li);
-                });
-            }
-        }
-       
+    if (tasks.length === 0) {
+        taskList.innerHTML = '<li class="empty-message">No tasks yet. Add one above!</li>';
+    } else {
+        tasks.forEach(task => {
+            const li = document.createElement('li');
+            li.className = `task-item ${task.completed ? 'completed' : ''}`;
+
+            const span = document.createElement('span');
+            span.className = 'task-text';
+            span.textContent = task.text; // safe — no HTML execution
+
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.className = 'task-buttons';
+            buttonsDiv.innerHTML = `
+                <button class="edit-btn" onclick="editTask(${task.id})">Edit</button>
+                <button class="complete-btn" onclick="completeTask(${task.id})">${task.completed ? 'Completed' : 'Complete'}</button>
+                <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+            `;
+
+            li.appendChild(span);
+            li.appendChild(buttonsDiv);
+            taskList.appendChild(li);
+        });
+    }
+}
+
 
     </script>
 </body>
